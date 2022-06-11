@@ -1,14 +1,17 @@
 var trex, trex_running;
 var ground, invisibleGround, groundImage;
+var numeroAleatorio;
+var nuvemImage
 
 function preload() {
   trex_running = loadAnimation("trex1.png", "trex3.png", "trex4.png");
-
-  groundImage = loadImage("ground2.png")
+  nuvemImage = loadImage("cloud.png");
+  groundImage = loadImage("ground2.png");
 }
 
 function setup() {
   createCanvas(600, 200);
+  numeroAleatorio =Math.round( random(1,100));
 
   //criar um sprite trex
   trex = createSprite(50,160,20,50);
@@ -27,7 +30,7 @@ function setup() {
 }
 
 function draw() {
-  background(220);
+  background("white");
 
   
   //pular quando a barra de espaço for pressionada
@@ -35,7 +38,7 @@ function draw() {
   // posição
   // && trex.y > 166
   // duas condições no mesmo if - && - e / || - ou
-  console.log(trex.y);
+
   if (keyDown("space") && trex.collide(invisibleGround)) {
     trex.velocityY = -13;
   }
@@ -47,5 +50,18 @@ function draw() {
   }
 
   trex.collide(invisibleGround);
+  criarNuvens();
   drawSprites();
+}
+function criarNuvens(){
+  if(frameCount%60 == 0){
+    var nuvem = createSprite(600,100,40,10);
+    nuvem.addImage("nuvem" , nuvemImage);
+    nuvem.scale = 0.1;
+    nuvem.velocityX = -3;
+    nuvem.y = Math.round(  random(30,80));
+    nuvem.depth = trex.depth;
+    trex.depth = trex.depth + 1 ;
+    
+  }
 }
